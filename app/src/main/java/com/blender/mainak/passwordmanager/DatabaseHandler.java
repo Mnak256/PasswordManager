@@ -17,8 +17,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COL_USERNAME = "username";
     private static final String COL_PASSWORD = "password";
 
-    public DatabaseHandler(Context context) {
-        super(context, DB_NAME, null, 1);
+    DatabaseHandler(Context context, int version) {
+        super(context, DB_NAME, null, version);
         //context is needed to create a database which is private to this application.
         //DB_NAME is the database name.
         //null is passed to the CursorFactory parameter because we don't want custom cursors to be returned form this database. The standard SQLineCursors will be enough.
@@ -43,7 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     //helper functions for CURD operations:
 
-    public void addRecord(Record record) {
+    void addRecord(Record record) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -54,7 +54,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<Record> getAllStudents() {
+    void removeRecord(Record record) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TBL_NAME, COL_USERNAME + " = " + record.username + " AND " + COL_PASSWORD + " = " + record.password, null);
+        db.close();
+    }
+
+    List<Record> getAllRecords() {
         SQLiteDatabase db = this.getWritableDatabase();
         String SELECT_ALL = "SELECT * FROM " + TBL_NAME;
         Cursor cursor = db.rawQuery(SELECT_ALL, null);
