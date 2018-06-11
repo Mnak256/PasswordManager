@@ -14,11 +14,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Record> records;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle, textViewBody;
+        TextView textViewDomain, textViewUsername, textViewPassword;
         ViewHolder(View view) {
             super(view);
-            this.textViewTitle = view.findViewById(R.id.textView_username);
-            this.textViewBody = view.findViewById(R.id.textView_password);
+            this.textViewDomain = view.findViewById(R.id.textView_domain);
+            this.textViewUsername = view.findViewById(R.id.textView_username);
+            this.textViewPassword = view.findViewById(R.id.textView_password);
         }
     }
 
@@ -36,8 +37,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Record record = records.get(position);
-        holder.textViewTitle.setText(record.username);
-        holder.textViewBody.setText(record.password);
+        holder.textViewDomain.setText(record.domain);
+        holder.textViewUsername.setText(record.username);
+        holder.textViewPassword.setText(record.password);
     }
 
     @Override

@@ -14,6 +14,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "PasswordManagerDatabase";
     private static final String TBL_NAME = "PasswordManager";
+    private static final String COL_DOMAIN = "domain";
     private static final String COL_USERNAME = "username";
     private static final String COL_PASSWORD = "password";
 
@@ -27,7 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) { //invoked when getWritableDatabase() is called and iff the database doesn't already exist.
-        String CREATE_TABLE = "CREATE TABLE " + TBL_NAME + " (" + COL_USERNAME + " TEXT, " + COL_PASSWORD + " TEXT, PRIMARY KEY (" + COL_USERNAME + ", " + COL_PASSWORD + "))"; //sql query to create the table.
+        String CREATE_TABLE = "CREATE TABLE " + TBL_NAME + " (" + COL_DOMAIN + " TEXT, " + COL_USERNAME + " TEXT, " + COL_PASSWORD + " TEXT, PRIMARY KEY (" + COL_DOMAIN + ", " + COL_USERNAME + ", " + COL_PASSWORD + "))"; //sql query to create the table.
         db.execSQL(CREATE_TABLE);
     }
 
@@ -47,6 +48,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_DOMAIN, record.domain);
         contentValues.put(COL_USERNAME, record.username);
         contentValues.put(COL_PASSWORD, record.password);
 
@@ -56,7 +58,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     void removeRecord(Record record) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TBL_NAME, COL_USERNAME + " = " + record.username + " AND " + COL_PASSWORD + " = " + record.password, null);
+        db.delete(TBL_NAME, COL_DOMAIN + " = " + record.domain + " AND " + COL_USERNAME + " = " + record.username + " AND " + COL_PASSWORD + " = " + record.password, null);
         db.close();
     }
 
@@ -68,8 +70,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Record record = new Record();
-                record.username = cursor.getString(0);
-                record.password = cursor.getString(1);
+                record.domain = cursor.getString(0);
+                record.username = cursor.getString(1);
+                record.password = cursor.getString(2);
                 list.add(record);
             } while (cursor.moveToNext());
         }
