@@ -58,14 +58,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     void removeRecord(Record record) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TBL_NAME, COL_DOMAIN + " = " + record.domain + " AND " + COL_USERNAME + " = " + record.username + " AND " + COL_PASSWORD + " = " + record.password, null);
+        db.delete(TBL_NAME, COL_DOMAIN + " = ? AND " + COL_USERNAME + " = ? AND " + COL_PASSWORD + " = ?", record.toStringArr());
         db.close();
     }
 
     List<Record> getAllRecords() {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String SELECT_ALL = "SELECT * FROM " + TBL_NAME;
         Cursor cursor = db.rawQuery(SELECT_ALL, null);
+        List<Record> list = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                Record record = new Record();
+                record.domain = cursor.getString(0);
+                record.username = cursor.getString(1);
+                record.password = cursor.getString(2);
+                list.add(record);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return list;
+    }
+
+    List<Record> search(String searchQuery) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String SEARCH = "Select * FROM " + TBL_NAME + " WHERE " + COL_DOMAIN + " LIKE '%" + searchQuery + "%'";
+        Cursor cursor = db.rawQuery(SEARCH, null);
         List<Record> list = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {

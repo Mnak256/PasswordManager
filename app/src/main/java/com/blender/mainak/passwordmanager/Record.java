@@ -15,4 +15,8 @@ public class Record {
         this.username = username;
         this.password = password;
     }
+
+    String[] toStringArr() {
+        return new String[] {this.domain, this.username, this.password};
+    }
 }

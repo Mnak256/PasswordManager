@@ -53,7 +53,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         //Log.i("RecyclerViewAdapter", "position removed:" + position);
     }
 
+    public void clear() {
+        records.clear();
+        notifyDataSetChanged();
+    }
+
     public void addRecord(Record record) {
         records.add(record);
+        notifyDataSetChanged();
     }
+
+    public void addRecord(List<Record> records) {
+        this.records = records;
+        notifyDataSetChanged();
+    }
+
+
 }

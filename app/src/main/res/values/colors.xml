@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#8d92b0</color>
+    <color name="colorPrimaryDark">#6971a0</color>
+    <color name="colorAccent">#5660a4</color>
+    <color name="colorCardBackground">#f3f3f6</color>
+    <color name="colorFabBackgroundTint">#95b1d8</color>
 </resources>
+
+    <!--D0DADC-->
+    <!--A0DFFE-->
+    <!--647BA5-->
+    <!--4C5B7C-->
+    <!--445068-->
